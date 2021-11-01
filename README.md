@@ -5,6 +5,20 @@ Feature selection algorithm for machine learning models based on evolution
 
 First of all the user need to define its own evaluation function for its model in the described format along with its features that the user wants to select
 
+
+## Setup
+
+To install evfs you can install it directly from the repo with pip:
+
+```pip install git+https://github.com/cloudwalk/simple-evolutionary-feature-search.git```
+
+```python
+import evfs 
+
+from evfs import efs 
+
+```
+
 ###### the format for evaluation function :
 
 ```python
@@ -30,9 +44,9 @@ class evalFunction():
         #important to return an integer score 
         return scores
 ```
-How to run evolutionary feature selector 
+## How to run evolutionary feature selector 
 
-Define the variables for evalFunction
+###### Define the variables for evalFunction
 
 ```python
 
