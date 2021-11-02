@@ -81,7 +81,28 @@ testefs=efs.EvolutionaryFeatureSelector(generations,features,dicName,creaturesNu
 
 #use string if you don't want to use chaos, this will make algorihtm runs faster 
 
-testefs.select_features(variables,evalFunction,string)
+bestFeature,winningValue,tracking,vectorFeature,listOfFeatures=testefs.select_features(variables,evalFunction,string)
+
+"""
+Returns:
+......
+   bestFeature:List
+        best set of feature for a given function or problem 
+
+    winningValue:int
+        best value for a set of feature
+
+    tracking:dictionary
+        dictionary containing values for tracking evolution 
+
+    vectorFeature:list
+        encoding form of feature set
+
+    listOfFeatures:List
+        list of features that have won over generations 
+    
+"""
+
 
 ```
 
