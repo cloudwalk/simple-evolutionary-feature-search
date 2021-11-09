@@ -6,11 +6,10 @@ import matplotlib.pyplot as plt
 import keras
 import pandas as pd
 import numpy as np
-from mask_converter import *
-from misc import *
-from uniform_crossover import *
-from converters import *
-from crossb_mutate import *                  
+from .mask_converter import *
+from .misc import *
+from .uniform_crossover import *
+from .crossb_mutate import *                  
 from sklearn.metrics import (
     roc_auc_score,
     roc_curve,

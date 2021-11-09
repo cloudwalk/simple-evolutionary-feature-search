@@ -14,12 +14,11 @@ from sklearn.metrics import (
     f1_score,
     accuracy_score,
 )
-
-from mask_converter import *
-from misc import *
-from uniform_crossover import *
-from converters import *
-from crossb_mutate import *                  
+from .mask_converter import *
+from .misc import *
+from .uniform_crossover import *
+from .converters import *
+from .crossb_mutate import *                  
 
 
 class EvolutionaryFeatureSelector:
