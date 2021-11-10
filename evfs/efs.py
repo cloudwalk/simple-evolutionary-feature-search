@@ -23,42 +23,28 @@ from .crossb_mutate import *
 
 class EvolutionaryFeatureSelector:
     """
-
     A class used to represent Evolutionary algorithm based feature selection
-
-
     ...
-
     Attributes
     ----------
     generations : int
         Total number of generations needed for efs to run
-
     total_creatures : int
         random creatures for each generation to increase search space
-
     features : list
         list of features
-
     name: str
         dictionary name in which we store winners
-
     Returns
     -------
-
     features: list
         final winning features for the evaluation function
-
     winning_key:int
         observed value for the selected features
-
-
     innovation_dic:dictionary
         contains information related to every feature and its formation used for tracking the orgin of features
-
     vectorized:list
          winning features represented in [0,1] form
-
     """
 
     def __init__(self, generations, features, dicName, creaturesNumber):
@@ -103,7 +89,7 @@ class EvolutionaryFeatureSelector:
         assert generations < len(features), "generations>=len(features)"
 
         
-    def chaotic_population(
+    def __chaotic_population(
         self, pop_size, dim_size, num_col, minf=0, maxf=None, shuffled=False
     ):
 
@@ -115,9 +101,7 @@ class EvolutionaryFeatureSelector:
         @!Param -> minf: Min number of features
         @!Param -> maxf: Max number of features (None)
         @!Param -> shuffled: Shuffled the list of indexes, avoiding repetition in the initial and final indexes of the chromosome
-
         @!Return -> A list containing an initial population
-
         """
 
         def boundary(position, size):
@@ -160,27 +144,18 @@ class EvolutionaryFeatureSelector:
 
 
 
-    def mutate_winners(self, population: list):
+    def __mutate_winners(self, population: list):
 
         """
-
         This function mutates the creatures with respect to winners from earlier generations
-
-
         Attributes
         ----------
-
-
         population :List
            features in vectorized form
-
-
         Returns
         -------
-
         population :List
             new set of features resulted from mutation
-
         """
 
         selected_index = choices(population)
@@ -200,77 +175,55 @@ class EvolutionaryFeatureSelector:
 
         return population
 
-    def dictionary_key_finder(self, dictionary, genecode):
+    def __dictionary_key_finder(self, dictionary, genecode):
 
         """
-
         This function is used to find keys in dictionary for particular genecode
-
-
         Attributes
         ----------
-
-
         dictionary :dict
            dictionary we need to find key in
-
         genecode:list
             list used to find key
-
-
         Returns
         -------
-
         key :int
             the key value for a particular genecode
-
         """
         for key, value in dictionary.items():
             if value["genecode"] == genecode:
                 return key
 
-    def dictionary_append(self, parent1_value, parent2_value, genecode, gen):
+    def __dictionary_append(self, parent1_value, parent2_value, genecode, gen):
 
         """
-
         This function is used to store values in dictionary
-
-
         Attributes
         ----------
-
-
         parent1_value :List
            features in vectorized form
-
         parent2_value:List
             features in vectorized form
-
         genecode:List
             genecode to be appended in the dictionary
-
         gen:int
             generation in which it was formed
-
-
         Returns
         -------
-
         None
-
         """
 
         self.innovation_dic[self.innovation_num] = self.dic_format.copy()
 
         self.innovation_dic[self.innovation_num][
             "parent1"
-        ] = self.dictionary_key_finder(self.innovation_dic, parent1_value)
+        ] = self.__dictionary_key_finder(self.innovation_dic, parent1_value)
 
         if parent2_value != "mutated":
 
             self.innovation_dic[self.innovation_num][
                 "parent2"
-            ] = self.dictionary_key_finder(self.innovation_dic, parent2_value)
+            ] = self.__dictionary_key_finder(self.innovation_dic, parent2_value)
 
         self.innovation_dic[self.innovation_num]["genecode"] = genecode
 
@@ -286,43 +239,30 @@ class EvolutionaryFeatureSelector:
 
         self.innovation_num += 1
 
-    def dictionary_append_mask(self, parent1_value, parent2_value, genecode, gen, mask):
+    def __dictionary_append_mask(self, parent1_value, parent2_value, genecode, gen, mask):
 
         """
-
         This function is used to store values in dictionary
-
-
         Attributes
         ----------
-
-
         parent1_value :List
            features in vectorized form
-
         parent2_value:List
             features in vectorized form
-
         genecode:List
             genecode to be appended in the dictionary
-
         gen:int
             generation in which it was formed
-
         mask:
             mask used to find new mask
-
-
         Returns
         -------
-
         None
-
         """
 
         self.innovation_dic[self.innovation_num] = self.dic_format.copy()
 
-        temp = self.dictionary_key_finder(self.innovation_dic, parent1_value)
+        temp = self.__dictionary_key_finder(self.innovation_dic, parent1_value)
 
         self.innovation_dic[self.innovation_num]["parent1"] = temp
 
@@ -330,7 +270,7 @@ class EvolutionaryFeatureSelector:
 
             self.innovation_dic[self.innovation_num][
                 "parent2"
-            ] = self.dictionary_key_finder(self.innovation_dic, parent2_value)
+            ] = self.__dictionary_key_finder(self.innovation_dic, parent2_value)
         else:
             self.innovation_dic[self.innovation_num]["parent2"] = "mutatedchaos"
 
@@ -356,36 +296,26 @@ class EvolutionaryFeatureSelector:
 
         self.innovation_num += 1
 
-    def dictionary_append_mutate(self, parent, gen):
+    def __dictionary_append_mutate(self, parent, gen):
 
         """
-
         This function is used to store values in dictionary
-
-
         Attributes
         ----------
-
-
         parent:List
            features in vectorized form
-
         gen:int
             generation in which it was formed
-
-
         Returns
         -------
-
         None
-
         """
 
         self.innovation_dic[self.innovation_num] = self.dic_format.copy()
 
         self.innovation_dic[self.innovation_num][
             "parent1"
-        ] = self.dictionary_key_finder(self.innovation_dic, parent)
+        ] = self.__dictionary_key_finder(self.innovation_dic, parent)
 
         self.innovation_dic[self.innovation_num]["parent2"] = "mutated"
 
@@ -399,28 +329,18 @@ class EvolutionaryFeatureSelector:
 
         return parent
 
-    def create_mask(self, length,features):
+    def __create_mask(self, length,features):
 
         """
-
         This function is used to create mask
-
-
         Attributes
         ----------
-
-
         length :int
            length for the mask
-
-
-
         Returns
         -------
-
         :list
             return gray mask
-
         """
 
         mask = []
@@ -429,29 +349,18 @@ class EvolutionaryFeatureSelector:
         #return self.binary_to_gray(mask)
         return binary_to_gray(mask,features)
 
-    def select_winners_top(self, array: list, gen, evalFunction, variables):
+    def __select_winners_top(self, array: list, gen, evalFunction, variables):
 
         """
-
         This function selects the top winners from the creatures pool
-
-
-
         Attributes
         ----------
-
-
         array :List
            contains feature that needs to be evaluated
-
-
-
         Returns
         -------
-
         winners:list
             returns list of winners
-
         """
 
         winners = []
@@ -529,22 +438,14 @@ class EvolutionaryFeatureSelector:
 
         """
         efs loop for generating features
-
-
-
         Attributes
         ----------
-
-
         variables :List
             user input variables for there evaluation  function
         evalFunction:function
             user inputed function name for evaluating the features
-
-
         Returns
         -------
-
         winners:list
             returns list of features
         winningValue:int
@@ -555,7 +456,6 @@ class EvolutionaryFeatureSelector:
             return vector value for features
         list_of_features:
             return a winning set of features
-
         """
         winners = []
 
@@ -604,7 +504,7 @@ class EvolutionaryFeatureSelector:
                     breeding[0], ancestor_breedingHigh
                 )  # crossbreed them
 
-                self.dictionary_append(
+                self.__dictionary_append(
                     breeding[0], ancestor_breedingHigh, genecode, gen
                 )  # append them in to dictionary
 
@@ -614,7 +514,7 @@ class EvolutionaryFeatureSelector:
                     breeding[0], ancestor_breedingHigh
                 )  # crossbreed them
 
-                self.dictionary_append(
+                self.__dictionary_append(
                     breeding[0], ancestor_breedingHigh, genecode, gen
                 )  # append them in to dictionary
 
@@ -624,7 +524,7 @@ class EvolutionaryFeatureSelector:
                     breeding[0], ancestor_breedingHigh
                 )  # crossbreed them
 
-                self.dictionary_append(
+                self.__dictionary_append(
                     breeding[0], ancestor_breedingHigh, genecode, gen
                 )  # append them in to dictionary
 
@@ -632,29 +532,29 @@ class EvolutionaryFeatureSelector:
 
                 genecode = cross_breeding(breeding[0], ancestor_breeding[0])
 
-                self.dictionary_append(breeding[0], ancestor_breeding[0], genecode, gen)
+                self.__dictionary_append(breeding[0], ancestor_breeding[0], genecode, gen)
 
                 population.append(genecode)
 
                 genecode = random_cross_breeding(breeding[0], ancestor_breeding[0])
 
-                self.dictionary_append(breeding[0], ancestor_breeding[0], genecode, gen)
+                self.__dictionary_append(breeding[0], ancestor_breeding[0], genecode, gen)
 
                 population.append(genecode)
 
                 genecode = cross_breeding(breeding[0], breeding[1])
 
-                self.dictionary_append(breeding[0], breeding[1], genecode, gen)
+                self.__dictionary_append(breeding[0], breeding[1], genecode, gen)
 
                 population.append(genecode)
 
                 genecode = random_cross_breeding(breeding[0], breeding[1])
 
-                self.dictionary_append(breeding[0], breeding[1], genecode, gen)
+                self.__dictionary_append(breeding[0], breeding[1], genecode, gen)
 
                 population.append(genecode)
 
-                mask_parent_key = self.dictionary_key_finder(
+                mask_parent_key = self.__dictionary_key_finder(
                     self.innovation_dic, breeding[0]
                 )
 
@@ -662,13 +562,13 @@ class EvolutionaryFeatureSelector:
                 #changed
                 genecode = uniformCrossover(breeding[0], breeding[1], mask)
 
-                self.dictionary_append_mask(
+                self.__dictionary_append_mask(
                     breeding[0], breeding[1], genecode, gen, mask
                 )
 
                 population.append(genecode)
 
-                mask_parent_key = self.dictionary_key_finder(
+                mask_parent_key = self.__dictionary_key_finder(
                     self.innovation_dic, ancestor_breeding[0]
                 )
 
@@ -678,13 +578,13 @@ class EvolutionaryFeatureSelector:
                     ancestor_breeding[0], breeding[0], mask
                 )
 
-                self.dictionary_append_mask(
+                self.__dictionary_append_mask(
                     ancestor_breeding[0], breeding[0], genecode, gen, mask
                 )
 
                 population.append(genecode)
 
-                mask_parent_key = self.dictionary_key_finder(
+                mask_parent_key = self.__dictionary_key_finder(
                     self.innovation_dic, ancestor_breedingHigh
                 )
 
@@ -694,7 +594,7 @@ class EvolutionaryFeatureSelector:
                     ancestor_breedingHigh, breeding[1], mask
                 )
 
-                self.dictionary_append_mask(
+                self.__dictionary_append_mask(
                     ancestor_breedingHigh, breeding[1], genecode, gen, mask
                 )
 
@@ -708,17 +608,17 @@ class EvolutionaryFeatureSelector:
                 maybe = 0
                 for c in temp:
 
-                    mask_parent_key = self.dictionary_key_finder(self.innovation_dic, c)
+                    mask_parent_key = self.__dictionary_key_finder(self.innovation_dic, c)
 
                     mask = self.innovation_dic[mask_parent_key]["mask"]
 
                     genecode = uniformCrossover(c, "mutate", mask)
 
-                    self.dictionary_append_mask(c, "mutate", genecode, gen, mask)
+                    self.__dictionary_append_mask(c, "mutate", genecode, gen, mask)
 
                     population.append(genecode)
 
-            indexes = self.chaotic_population(
+            indexes = self.__chaotic_population(
                 self.total_creatures, gen + 1, len(self.features), 0, None, True
             )
 
@@ -734,17 +634,17 @@ class EvolutionaryFeatureSelector:
 
                 self.innovation_dic[self.innovation_num]["gen"] = gen
 
-                nice = self.create_mask(len(self.features),self.features)
+                nice = self.__create_mask(len(self.features),self.features)
 
                 self.innovation_dic[self.innovation_num]["mask"] = nice
 
-                self.innovation_dic[self.innovation_num]["lambda"] = self.create_mask(6,self.features)
+                self.innovation_dic[self.innovation_num]["lambda"] = self.__create_mask(6,self.features)
 
                 self.innovation_num += 1
 
             print("random creatures created", "\n")
 
-            winners = self.select_winners_top(population, gen, evalFunction, variables)
+            winners = self.__select_winners_top(population, gen, evalFunction, variables)
 
             self.earlier_winners += winners
 
@@ -800,4 +700,3 @@ class EvolutionaryFeatureSelector:
         vectorized = tracker(features,self.features)
 
         return features, winning_key, self.innovation_dic, vectorized, list_of_features
-    
