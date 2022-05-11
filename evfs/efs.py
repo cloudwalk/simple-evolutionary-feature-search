@@ -3,7 +3,7 @@ from math import floor
 import time
 from random import choices
 import matplotlib.pyplot as plt
-import keras
+#import keras
 import pandas as pd
 import numpy as np
 from sklearn.metrics import (
