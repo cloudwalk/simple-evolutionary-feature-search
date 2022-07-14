@@ -1,4 +1,4 @@
-# Evolutionary-Feature-Search-framework
+# Evolutionary feature selection: a novel wrapper feature selection architecture based on evolutionary strategies
 Feature selection algorithm for machine learning models based on evolution 
 
 ## Step by step instructions to make it work
