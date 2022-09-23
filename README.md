@@ -29,7 +29,7 @@ class evalFunction():
         self.features=features
     
     #change according to user uses case for model
-    def func(self,x_train,x_test,y_train,y_test):
+    def func(self,x_train,x_test,y_train,y_test,gen):
         
         #define your model to judge with features here 
         
