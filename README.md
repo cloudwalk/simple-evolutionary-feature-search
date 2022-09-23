@@ -77,7 +77,7 @@ dicName="efs0"
 
 creaturesNumber=100
 
-testefs=efs.EvolutionaryFeatureSelector(generations,features,dicName,creaturesNumber)
+testefs=efs.EvolutionaryFeatureSelector(start,generations,features,dicName,creaturesNumber)
 
 #use string if you don't want to use chaos, this will make algorihtm runs faster 
 
