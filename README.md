@@ -67,9 +67,12 @@ creaturesNumber= total number of random creatures in each generation
 string= if it is "chaos" then efs will use chaos otherwise simple efs ,default value for this variable is "chaos". 
 """
 #default values 
+start=0
 
 generations=10 
-
+#this means that evfs will run form 0 - 10 generations if you change the  start = 30 & generations=50 it will run from 30 - 50 generations only
+# use this type of custom limit in to reduce the runtime of algorithm
+ 
 
 features=[f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10] 
 
