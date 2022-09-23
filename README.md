@@ -29,7 +29,7 @@ class evalFunction():
         self.features=features
     
     #change according to user uses case for model
-    def func(self,x_train,x_test,y_train,y_test):
+    def func(self,x_train,x_test,y_train,y_test,gen):
         
         #define your model to judge with features here 
         
@@ -67,9 +67,12 @@ creaturesNumber= total number of random creatures in each generation
 string= if it is "chaos" then efs will use chaos otherwise simple efs ,default value for this variable is "chaos". 
 """
 #default values 
+start=0
 
 generations=10 
-
+#this means that evfs will run form 0 - 10 generations if you change the  start = 30 & generations=50 it will run from 30 - 50 generations only
+# use this type of custom limit in to reduce the runtime of algorithm
+ 
 
 features=[f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10] 
 
@@ -77,7 +80,7 @@ dicName="efs0"
 
 creaturesNumber=100
 
-testefs=efs.EvolutionaryFeatureSelector(generations,features,dicName,creaturesNumber)
+testefs=efs.EvolutionaryFeatureSelector(start,generations,features,dicName,creaturesNumber)
 
 #use string if you don't want to use chaos, this will make algorihtm runs faster 
 

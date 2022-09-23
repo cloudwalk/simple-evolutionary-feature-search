@@ -3,7 +3,6 @@ from math import floor
 import time
 from random import choices
 import matplotlib.pyplot as plt
-import keras
 import pandas as pd
 import numpy as np
 from sklearn.metrics import (
@@ -47,7 +46,7 @@ class EvolutionaryFeatureSelector:
          winning features represented in [0,1] form
     """
 
-    def __init__(self, generations, features, dicName, creaturesNumber):
+    def __init__(self,start,generations, features, dicName, creaturesNumber):
 
         self.top_creatures = {}
 
@@ -84,7 +83,7 @@ class EvolutionaryFeatureSelector:
 
         self.time = []
 
-        self.start = 0
+        self.start = start
 
         assert generations < len(features), "generations>=len(features)"
 
