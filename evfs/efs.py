@@ -369,7 +369,14 @@ class EvolutionaryFeatureSelector:
 
         dic = {}
 
+        total_length = len(array)
+        current_length = total_length
+
         for creature in array:
+
+            current_length -= 1
+
+            print("evaluating--------{0}/{1},".format(current_length, total_length))
 
             input = find_input(creature, self.features)
 
