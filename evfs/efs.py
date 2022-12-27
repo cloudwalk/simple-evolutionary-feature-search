@@ -17,7 +17,7 @@ from .mask_converter import *
 from .misc import *
 from .uniform_crossover import *
 from .converters import *
-from .crossb_mutate import *                  
+from .crossb_mutate import *
 
 
 class EvolutionaryFeatureSelector:
@@ -46,7 +46,7 @@ class EvolutionaryFeatureSelector:
          winning features represented in [0,1] form
     """
 
-    def __init__(self,start,generations, features, dicName, creaturesNumber):
+    def __init__(self, start, generations, features, dicName, creaturesNumber):
 
         self.top_creatures = {}
 
@@ -67,7 +67,7 @@ class EvolutionaryFeatureSelector:
         self.binary_tracker = {}
 
         self.temp = {}
-        
+
         self.dic_format = {
             "parent1": None,
             "parent2": None,
@@ -87,7 +87,6 @@ class EvolutionaryFeatureSelector:
 
         assert generations < len(features), "generations>=len(features)"
 
-        
     def __chaotic_population(
         self, pop_size, dim_size, num_col, minf=0, maxf=None, shuffled=False
     ):
@@ -140,8 +139,6 @@ class EvolutionaryFeatureSelector:
             chromossome_list.append(np.sort(sample))
 
         return np.array(chromossome_list).astype(np.int)
-
-
 
     def __mutate_winners(self, population: list):
 
@@ -238,7 +235,9 @@ class EvolutionaryFeatureSelector:
 
         self.innovation_num += 1
 
-    def __dictionary_append_mask(self, parent1_value, parent2_value, genecode, gen, mask):
+    def __dictionary_append_mask(
+        self, parent1_value, parent2_value, genecode, gen, mask
+    ):
 
         """
         This function is used to store values in dictionary
@@ -287,8 +286,8 @@ class EvolutionaryFeatureSelector:
 
         new_lambda = "".join(map(str, lambda_mask))
 
-        #new_mask = self.mask_converter(gray_mask, lambda_mask)
-        new_mask = mask_converter(gray_mask, lambda_mask,self.features)
+        # new_mask = self.mask_converter(gray_mask, lambda_mask)
+        new_mask = mask_converter(gray_mask, lambda_mask, self.features)
         self.innovation_dic[self.innovation_num]["mask"] = new_mask
 
         self.innovation_dic[self.innovation_num]["lambda"] = new_lambda
@@ -328,7 +327,7 @@ class EvolutionaryFeatureSelector:
 
         return parent
 
-    def __create_mask(self, length,features):
+    def __create_mask(self, length, features):
 
         """
         This function is used to create mask
@@ -345,8 +344,8 @@ class EvolutionaryFeatureSelector:
         mask = []
         for i in range(length):
             mask.append(random.randint(0, 1))
-        #return self.binary_to_gray(mask)
-        return binary_to_gray(mask,features)
+        # return self.binary_to_gray(mask)
+        return binary_to_gray(mask, features)
 
     def __select_winners_top(self, array: list, gen, evalFunction, variables):
 
@@ -372,7 +371,7 @@ class EvolutionaryFeatureSelector:
 
         for creature in array:
 
-            input = find_input(creature,self.features)
+            input = find_input(creature, self.features)
 
             if len(input) == 0:
                 # print(creature,"creature error!!!!!")
@@ -531,13 +530,17 @@ class EvolutionaryFeatureSelector:
 
                 genecode = cross_breeding(breeding[0], ancestor_breeding[0])
 
-                self.__dictionary_append(breeding[0], ancestor_breeding[0], genecode, gen)
+                self.__dictionary_append(
+                    breeding[0], ancestor_breeding[0], genecode, gen
+                )
 
                 population.append(genecode)
 
                 genecode = random_cross_breeding(breeding[0], ancestor_breeding[0])
 
-                self.__dictionary_append(breeding[0], ancestor_breeding[0], genecode, gen)
+                self.__dictionary_append(
+                    breeding[0], ancestor_breeding[0], genecode, gen
+                )
 
                 population.append(genecode)
 
@@ -558,7 +561,7 @@ class EvolutionaryFeatureSelector:
                 )
 
                 mask = self.innovation_dic[mask_parent_key]["mask"]
-                #changed
+                # changed
                 genecode = uniformCrossover(breeding[0], breeding[1], mask)
 
                 self.__dictionary_append_mask(
@@ -573,9 +576,7 @@ class EvolutionaryFeatureSelector:
 
                 mask = self.innovation_dic[mask_parent_key]["mask"]
 
-                genecode = uniformCrossover(
-                    ancestor_breeding[0], breeding[0], mask
-                )
+                genecode = uniformCrossover(ancestor_breeding[0], breeding[0], mask)
 
                 self.__dictionary_append_mask(
                     ancestor_breeding[0], breeding[0], genecode, gen, mask
@@ -589,9 +590,7 @@ class EvolutionaryFeatureSelector:
 
                 mask = self.innovation_dic[mask_parent_key]["mask"]
 
-                genecode = uniformCrossover(
-                    ancestor_breedingHigh, breeding[1], mask
-                )
+                genecode = uniformCrossover(ancestor_breedingHigh, breeding[1], mask)
 
                 self.__dictionary_append_mask(
                     ancestor_breedingHigh, breeding[1], genecode, gen, mask
@@ -607,7 +606,9 @@ class EvolutionaryFeatureSelector:
                 maybe = 0
                 for c in temp:
 
-                    mask_parent_key = self.__dictionary_key_finder(self.innovation_dic, c)
+                    mask_parent_key = self.__dictionary_key_finder(
+                        self.innovation_dic, c
+                    )
 
                     mask = self.innovation_dic[mask_parent_key]["mask"]
 
@@ -627,23 +628,27 @@ class EvolutionaryFeatureSelector:
 
                 self.innovation_dic[self.innovation_num] = self.dic_format.copy()
 
-                self.innovation_dic[self.innovation_num][
-                    "genecode"
-                ] = create_vector(index, singularity)
+                self.innovation_dic[self.innovation_num]["genecode"] = create_vector(
+                    index, singularity
+                )
 
                 self.innovation_dic[self.innovation_num]["gen"] = gen
 
-                nice = self.__create_mask(len(self.features),self.features)
+                nice = self.__create_mask(len(self.features), self.features)
 
                 self.innovation_dic[self.innovation_num]["mask"] = nice
 
-                self.innovation_dic[self.innovation_num]["lambda"] = self.__create_mask(6,self.features)
+                self.innovation_dic[self.innovation_num]["lambda"] = self.__create_mask(
+                    6, self.features
+                )
 
                 self.innovation_num += 1
 
             print("random creatures created", "\n")
 
-            winners = self.__select_winners_top(population, gen, evalFunction, variables)
+            winners = self.__select_winners_top(
+                population, gen, evalFunction, variables
+            )
 
             self.earlier_winners += winners
 
@@ -657,6 +662,10 @@ class EvolutionaryFeatureSelector:
             print("winners", len(winners))
 
             elapsed_time = time.time() - start
+
+            gen_string = self.name + str(gen) + ".npy"
+
+            np.save(gen_string, self.top_creatures)
 
             print(
                 "time______________________________________________________________________",
@@ -696,6 +705,6 @@ class EvolutionaryFeatureSelector:
 
         features = top_value[winning_key]
         print(features, "features")
-        vectorized = tracker(features,self.features)
+        vectorized = tracker(features, self.features)
 
         return features, winning_key, self.innovation_dic, vectorized, list_of_features
