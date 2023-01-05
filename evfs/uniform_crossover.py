@@ -8,91 +8,91 @@ import numpy as np
 from .mask_converter import *
 from .misc import *
 from .converters import *
-from .crossb_mutate import *                  
+from .crossb_mutate import *
 
 
 def uniformCrossover(parent1: list, parent2: list, mask: list):
 
-        """
+    """
 
-        This function performs uniform crossover and mutation with the help of a mask
-
-
-
-        ...
-
-        Attributes
-        ----------
-
-        parent1:List
-           features in vectorized form
-
-        parent2:List
-           features in vectorized form
-
-        mask:string
-           string of bits used to form unifrom crossover and mask
+    This function performs uniform crossover and mutation with the help of a mask
 
 
 
-        Returns
-        -------
+    ...
 
-        child :List
-            new set of features resulted from uniform crossover and mutation
+    Attributes
+    ----------
+
+    parent1:List
+       features in vectorized form
+
+    parent2:List
+       features in vectorized form
+
+    mask:string
+       string of bits used to form unifrom crossover and mask
 
 
 
-        """
+    Returns
+    -------
 
-        if parent2 == "mutate":
+    child :List
+        new set of features resulted from uniform crossover and mutation
 
-            child = []
-            index = 0
+
+
+    """
+
+    if parent2 == "mutate":
+
+        child = []
+        index = 0
+
+        for bits in mask:
+            if bits == "0" and parent1[index] == 0:
+
+                child.append(0)
+            else:
+                child.append(1)
+            index += 1
+        return child
+
+    else:
+        child = []
+        index = 0
+
+        # sanity check if we get length error while converting somewhere in code
+
+        smallest = len(parent1) != len(parent2)
+
+        if smallest is True:
+
+            if len(parent1) > len(parent2):
+                smallest_len = len(parent2)
+                large_parent = parent1
+            else:
+                smallest_len = len(parent1)
+                large_parent = parent2
 
             for bits in mask:
-                if bits == "0" and parent1[index] == 0:
-
-                    child.append(0)
+                if index >= smallest_len:
+                    break
+                if bits == 0:
+                    child.append(parent2[index])
                 else:
-                    child.append(1)
+                    child.append(parent1[index])
                 index += 1
-            return child
 
+            child += large_parent[smallest_len:]
         else:
-            child = []
-            index = 0
 
-            # sanity check if we get length error while converting somewhere in code
-
-            smallest = len(parent1) != len(parent2)
-
-            if smallest is True:
-
-                if len(parent1) > len(parent2):
-                    smallest_len = len(parent2)
-                    large_parent = parent1
+            for bits in mask:
+                if bits == 0:
+                    child.append(parent2[index])
                 else:
-                    smallest_len = len(parent1)
-                    large_parent = parent2
+                    child.append(parent1[index])
+                index += 1
 
-                for bits in mask:
-                    if index >= smallest_len:
-                        break
-                    if bits == 0:
-                        child.append(parent2[index])
-                    else:
-                        child.append(parent1[index])
-                    index += 1
-
-                child += large_parent[smallest_len:]
-            else:
-
-                for bits in mask:
-                    if bits == 0:
-                        child.append(parent2[index])
-                    else:
-                        child.append(parent1[index])
-                    index += 1
-
-            return child
+        return child
