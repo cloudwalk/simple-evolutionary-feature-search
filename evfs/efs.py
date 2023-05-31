@@ -487,10 +487,11 @@ class EvolutionaryFeatureSelector:
             )
 
             key_list = list(self.binary_tracker.keys())
-
+            
+            print("solve_this",len(winners),len(population))
             # crossBreed
             for i in range(len(winners) // 2):
-
+                print(i,"__________________")
                 # TODO a single to perform crossbreeding operation
 
                 breeding = random.sample(winners, 2)  # randomly selected creatures
@@ -604,6 +605,7 @@ class EvolutionaryFeatureSelector:
                 )
 
                 population.append(genecode)
+            print("after cross_over ",len(winners),len(population))
 
             #           mutate
             if command == "chaos":
@@ -652,6 +654,8 @@ class EvolutionaryFeatureSelector:
                 self.innovation_num += 1
 
             print("random creatures created", "\n")
+
+            print("after_everything",len(winners),len(population))
 
             winners = self.__select_winners_top(
                 population, gen, evalFunction, variables
