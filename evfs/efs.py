@@ -491,7 +491,7 @@ class EvolutionaryFeatureSelector:
             print("solve_this",len(winners))
             # crossBreed
             for i in range(len(winners) // 2):
-
+                print(i,"__________________")
                 # TODO a single to perform crossbreeding operation
 
                 breeding = random.sample(winners, 2)  # randomly selected creatures
