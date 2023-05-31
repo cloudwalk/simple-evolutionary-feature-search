@@ -487,7 +487,8 @@ class EvolutionaryFeatureSelector:
             )
 
             key_list = list(self.binary_tracker.keys())
-            print(len(winners)//2,len(winners),"______________________________-solve_this")
+            
+            print("solve_this",len(winners))
             # crossBreed
             for i in range(len(winners) // 2):
 
