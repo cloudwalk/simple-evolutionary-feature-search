@@ -138,7 +138,7 @@ class EvolutionaryFeatureSelector:
                 temp_list = np.delete(temp_list, [asw_idx])
             chromossome_list.append(np.sort(sample))
 
-        return np.array(chromossome_list).astype(np.int)
+        return np.array(chromossome_list).astype(int)
 
     def __mutate_winners(self, population: list):
 
