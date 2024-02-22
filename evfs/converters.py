@@ -18,6 +18,9 @@ from sklearn.metrics import (
     accuracy_score,
 )
 
+from decimal import Decimal
+
+
 
 
 def bin_to_real(bits, lower_limit, upper_limit, num):
@@ -58,11 +61,11 @@ def bin_to_real(bits, lower_limit, upper_limit, num):
         """
 
         up = upper_limit - lower_limit
-
+       
         down = 2 ** len(bits) - 1
 
-        return lower_limit + ((up / down) * num)
-
+        #return lower_limit + ((up / down) * num)
+        return float(Decimal(lower_limit) + (Decimal((up / down)) * Decimal(num)))
 
 def masktodecimal(upper_limit, lower_limit, num, k):
 
@@ -99,7 +102,7 @@ def masktodecimal(upper_limit, lower_limit, num, k):
 
         """
 
-        up = (num - lower_limit) * (2 ** k - 1)
+        up = float(Decimal(num - lower_limit) * Decimal(2 ** k - 1))
 
         down = upper_limit - lower_limit
         
